@@ -56,7 +56,6 @@ body {
     
     /* *** ফিক্স: স্ক্রলবার সবসময় ভিজিবল থাকবে, ফলে মেনু সরে যাবে না *** */
     overflow-y: scroll;
-    /* *** ফিক্স শেষ *** */
 }
 
 /* Navigation Bar */
@@ -730,7 +729,7 @@ video, #player {
         display: flex;
         width: auto; 
         min-width: 200px; 
-        position: fixed; /* <--- মূল পরিবর্তন */
+        position: fixed; 
         right: 20px; 
         top: 65px; 
         box-shadow: var(--shadow-md); 
@@ -782,10 +781,21 @@ video, #player {
         width: 100%;
         margin-bottom: 15px;
     }
-
+    
     .previous-next-close-controls {
         width: 100%;
         justify-content: space-between;
+    }
+    
+    /* সেভ বাটন মোবাইলে সুইচের নিচে কিন্তু প্রিভিয়াস/নেক্সট/ক্লোজের উপরে থাকবে */
+    .btn-save {
+        order: 2; /* Switch (1), Save (2), Previous/Next/Close (3) */
+    }
+    .btn-large-compact {
+        order: 1;
+    }
+    .previous-next-close-controls {
+        order: 3;
     }
 }
 
