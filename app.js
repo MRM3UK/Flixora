@@ -15,7 +15,6 @@ const CONFIG = {
         PLAYER_MODE: 'm3u_player_mode'
     }
 }
-
 </script>
 <script type="text/javascript" src="//www.highperformanceformat.com/02999abf8b19cf254607fad8b5fb2767/invoke.js"></script>
 
