@@ -3,7 +3,7 @@
 // ===== Configuration =====
 const CONFIG = {
     DEFAULT_PLAYLIST_URL: "https://raw.githubusercontent.com/MRM3UK/New-try/refs/heads/main/playlist5.m3u",
-    DEFAULT_PLAYLIST_NAME: "BDIX Movies Project 2",
+    DEFAULT_PLAYLIST_NAME: "Default",
     EPISODES_PER_LOAD: 50,
     STORAGE_KEYS: {
         PLAYLISTS: 'm3u_playlists',
@@ -14,27 +14,7 @@ const CONFIG = {
         SETTINGS: 'm3u_settings',
         PLAYER_MODE: 'm3u_player_mode'
     }
-};
-useEffect(() => {
-  const script1 = document.createElement('script');
-  script1.type = 'text/javascript';
-  script1.innerHTML = `
-    atOptions = {
-      'key': '02999abf8b19cf254607fad8b5fb2767',
-      'format': 'iframe',
-      'height': 300,
-      'width': 160,
-      'params': {}
-    };
-  `;
-  document.body.appendChild(script1);
-
-  const script2 = document.createElement('script');
-  script2.type = 'text/javascript';
-  script2.src = '//www.highperformanceformat.com/02999abf8b19cf254607fad8b5fb2767/invoke.js';
-  document.body.appendChild(script2);
-}, []);
-
+}
 
 </script>
 <script type="text/javascript" src="//www.highperformanceformat.com/02999abf8b19cf254607fad8b5fb2767/invoke.js"></script>
