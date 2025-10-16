@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flixoura - Advanced M3U Player</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr-hlsjs-playback@latest/dist/clappr-hlsjs-playback.min.js"></script>
+</head>
+<body>
+    <div id="toast-container"></div>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="#home" class="navbar-brand">
+                <span class="material-icons">play_circle</span>
+                Flixoura
+            </a>
+            
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span class="material-icons">menu</span>
+            </button>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item"><a href="#home" class="nav-link active" data-page="home" onclick="Router.navigate('home')"><span class="material-icons">home</span> Home</a></li>
+                <li class="nav-item"><a href="#player" class="nav-link" data-page="player" onclick="Router.navigate('player')"><span class="material-icons">play_circle_filled</span> Player</a></li>
+                <li class="nav-item"><a href="#library" class="nav-link" data-page="library" onclick="Router.navigate('library')"><span class="material-icons">video_library</span> Library</a></li>
+                <li class="nav-item"><a href="#stats" class="nav-link" data-page="stats" onclick="Router.navigate('stats')"><span class="material-icons">analytics</span> Stats</a></li>
+                <li class="nav-item"><a href="#settings" class="nav-link" data-page="settings" onclick="Router.navigate('settings')"><span class="material-icons">settings</span> Settings</a></li>
+                <li class="nav-item"><a href="#about" class="nav-link" data-page="about" onclick="Router.navigate('about')"><span class="material-icons">info</span> About</a></li>
+                <li class="nav-item">
+                    <button class="theme-toggle" onclick="ThemeManager.toggle()">
+                        <span class="material-icons" id="theme-icon">light_mode</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="home-page" class="page active">
+        <div class="container">
+            <div class="hero">
+                <h1>🎬 Flixoura</h1>
+                <p>The Ultimate M3U Playlist Player - Stream, Save, and Enjoy Your Favorite Content with Advanced Features</p>
+                <div class="hero-actions">
+                    <button class="btn btn-large" onclick="Router.navigate('player')">
+                        <span class="material-icons">play_arrow</span> Start Streaming
+                    </button>
+                    <button class="btn btn-outline btn-large" onclick="Router.navigate('library')">
+                        <span class="material-icons">video_library</span> Browse Library
+                    </button>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📺</div>
+                    <h3>Triple Player System</h3>
+                    <p>Switch between Native HTML5 player, PlayerJS, and Clappr for the best streaming experience</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📁</div>
+                    <h3>Multi-Source Loading</h3>
+                    <p>Load playlists from URLs, paste M3U content, or upload files with drag & drop</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>HLS Streaming</h3>
+                    <p>Advanced HLS.js support for smooth adaptive bitrate streaming</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3>Favorites & History</h3>
+                    <p>Mark favorites, track watch history, and resume where you left off</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Advanced Search</h3>
+                    <p>Search channels by name, category, or URL with real-time filtering</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Detailed Statistics</h3>
+                    <p>View comprehensive stats about your viewing habits and preferences</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Dark & Light Themes</h3>
+                    <p>Beautiful themes that adapt to your preference with smooth transitions</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Fully Responsive</h3>
+                    <p>Perfect experience on desktop, tablet, and mobile devices</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3>Local Storage</h3>
+                    <p>All your playlists and preferences saved securely in your browser</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="player-page" class="page">
+        <div class="container">
+            <div class="section-card">
+                <h2>📺 Load Playlist</h2>
+                <div class="tab-container">
+                    <button class="tab-btn active" data-tab="url" onclick="switchTab('url')">🔗 URL</button>
+                    <button class="tab-btn" data-tab="paste" onclick="switchTab('paste')">📋 Paste</button>
+                    <button class="tab-btn" data-tab="upload" onclick="switchTab('upload')">📁 Upload</button>
+                </div>
+
+                <div class="tab-content active" id="url-tab">
+                    <input type="text" id="playlist-url" placeholder="Enter M3U URL (e.g., https://example.com/playlist.m3u)">
+                    <button class="btn" onclick="Player.loadFromURL(document.getElementById('playlist-url').value)">
+                        <span class="material-icons">cloud_download</span> Load from URL
+                    </button>
+                </div>
+
+                <div class="tab-content" id="paste-tab">
+                    <textarea id="playlist-text" placeholder="Paste your M3U content here..."></textarea>
+                    <input type="text" id="playlist-name" placeholder="Playlist name (optional)">
+                    <button class="btn" onclick="Player.loadFromText(document.getElementById('playlist-text').value, document.getElementById('playlist-name').value)">
+                        <span class="material-icons">playlist_add</span> Load Playlist
+                    </button>
+                </div>
+
+                <div class="tab-content" id="upload-tab">
+                    <div class="drop-zone" id="drop-zone">
+                        <span class="material-icons">cloud_upload</span>
+                        <p style="margin-top: 10px;">Drag & drop your M3U file here<br>or click to browse</p>
+                    </div>
+                    <input type="file" id="file-input" accept=".m3u,.m3u8" style="display:none;">
+                </div>
+            </div>
+
+            <div class="section-card" id="player-container" style="display:none;">
+                <div class="player-container" id="native-player-container">
+                    <video id="video-player" controls></video>
+                </div>
+                
+                <div class="player-container" id="playerjs-player-container" style="display:none;">
+                    <div id="player"></div>
+                </div>
+
+                <div class="player-container" id="clappr-player-container" style="display:none;">
+                    <div id="clappr-player"></div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
+                        <img id="current-logo" src="" alt="" style="max-width: 60px; max-height: 60px; border-radius: 10px; display: none;">
+                        <h3 id="current-title" style="flex: 1; margin: 0;">No channel selected</h3>
+                    </div>
+                    
+                    <div class="player-controls-bar">
+                        
+                        <button class="btn" id="playlist-save-btn" style="display:none;" onclick="Player.saveCurrentPlaylist()">
+                            <span class="material-icons">save</span> Save Playlist
+                        </button>
+                        
+                        <div class="player-controls-group">
+                            <button class="btn-control" onclick="Player.previousEpisode()">
+                                « Previous
+                            </button>
+                            <button class="btn-control" onclick="Player.nextEpisode()">
+                                Next »
+                            </button>
+                            <button class="btn-control btn-close" onclick="Player.closePlayer()">
+                                × Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+                    <h2 style="margin: 0;">📺 Channels (<span id="player-count">0</span>)</h2>
+                </div>
+                
+                <div class="filter-bar">
+                    <div class="search-container" style="flex: 2;">
+                        <span class="material-icons search-icon">search</span>
+                        <input type="text" id="player-search" class="search-input" placeholder="Search channels...">
+                    </div>
+                    <select id="player-group-filter">
+                        <option value="all">All Categories</option>
+                    </select>
+                </div>
+                
+                <div class="card-grid" id="player-episodes-grid">
+                    <div class="empty-state">
+                        <span class="material-icons">tv_off</span>
+                        <p>Load a playlist to start watching</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="library-page" class="page">
+        <div class="container">
+            <div class="section-card">
+                <h2>📚 My Library</h2>
+                <p style="color: var(--text-secondary);">Your saved playlists and favorites will appear here.</p>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="library-playlists-count">0</div>
+                        <div class="stat-label">Saved Playlists</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="library-favorites-count">0</div>
+                        <div class="stat-label">Favorites</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="library-history-count">0</div>
+                        <div class="stat-label">Watch History</div>
+                    </div>
+                </div>
+                <div class="card-grid" id="library-playlists">
+                    <div class="empty-state" style="padding: 20px;">
+                        <span class="material-icons" style="font-size: 48px;">video_library</span>
+                        <p>No saved playlists yet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="stats-page" class="page">
+        <div class="container">
+            <div class="section-card">
+                <h2>📊 Your Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="stats-playlists">0</div>
+                        <div class="stat-label">Total Playlists</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stats-channels">0</div>
+                        <div class="stat-label">Total Channels</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stats-watched">0</div>
+                        <div class="stat-label">Videos Watched</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stats-favorites">0</div>
+                        <div class="stat-label">Favorites</div>
+                    </div>
+                </div>
+                <div class="empty-state" style="padding: 20px;">
+                    <span class="material-icons" style="font-size: 48px;">analytics</span>
+                    <p>Start watching videos to see your statistics!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="settings-page" class="page">
+        <div class="container">
+            <div class="section-card">
+                <h2>⚙️ Settings</h2>
+                
+                <div style="margin-bottom: 30px;">
+                    <h3>📺 Player Selection</h3>
+                    <p style="color: var(--text-secondary); margin: 15px 0;">
+                        Choose your preferred video player for compatibility and features.
+                    </p>
+                    <label style="display: block; margin: 20px 0;">
+                        <span style="display: block; margin-bottom: 8px; font-weight: 600;">Preferred Player</span>
+                        <select id="setting-player" style="max-width: 250px;">
+                            <option value="native">Native HTML5 Player (Standard)</option>
+                            <option value="playerjs">PlayerJS (High Compatibility)</option>
+                            <option value="clappr">Clappr (Modern HLS Support)</option>
+                        </select>
+                    </label>
+                </div>
+                
+                <div style="margin-bottom: 30px;">
+                    <h3>🎬 Playback Settings</h3>
+                    <label style="display: flex; align-items: center; gap: 10px; margin: 20px 0; cursor: pointer;">
+                        <input type="checkbox" id="setting-autoplay" style="width: auto;">
+                        <span>Autoplay videos on load</span>
+                    </label>
+                    
+                    <label style="display: flex; align-items: center; gap: 10px; margin: 20px 0; cursor: pointer;">
+                        <input type="checkbox" id="setting-auto-next" style="width: auto;">
+                        <span>Automatically play next video when current ends</span>
+                    </label>
+                    
+                    <label style="display: block; margin: 20px 0;">
+                        <span style="display: block; margin-bottom: 8px; font-weight: 600;">Preferred Quality</span>
+                        <select id="setting-quality" style="max-width: 250px;">
+                            <option value="auto">Auto (Recommended)</option>
+                            <option value="1080p">1080p Full HD</option>
+                            <option value="720p">720p HD</option>
+                            <option value="480p">480p SD</option>
+                        </select>
+                    </label>
+                    
+                    <button class="btn" onclick="Settings.save()">
+                        <span class="material-icons">save</span> Save Settings
+                    </button>
+                </div>
+
+                <div style="border-top: 1px solid var(--border); padding-top: 30px; margin-top: 30px;">
+                    <h3>💾 Data Management</h3>
+                    <p style="color: var(--text-secondary); margin: 15px 0; line-height: 1.6;">
+                        Manage your saved data, export backups, or clear everything
+                    </p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px;">
+                        <button class="btn btn-secondary" onclick="Settings.exportData()">
+                            <span class="material-icons">download</span> Export Data
+                        </button>
+                        <button class="btn btn-secondary" onclick="Settings.clearAllData()">
+                            <span class="material-icons">delete_forever</span> Clear All Data
+                        </button>
+                    </div>
+                </div>
+
+                <div style="border-top: 1px solid var(--border); padding-top: 30px; margin-top: 30px;">
+                    <h3>⌨️ Keyboard Shortcuts</h3>
+                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 12px; margin-top: 15px;">
+                        <div style="display: grid; gap: 10px;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Next Video:</span>
+                                <kbd style="padding: 4px 8px; background: var(--bg-primary); border-radius: 5px; font-family: monospace;">N</kbd>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Previous Video:</span>
+                                <kbd style="padding: 4px 8px; background: var(--bg-primary); border-radius: 5px; font-family: monospace;">P</kbd>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Switch Player:</span>
+                                <kbd style="padding: 4px 8px; background: var(--bg-primary); border-radius: 5px; font-family: monospace;">S</kbd>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="about-page" class="page">
+        <div class="container">
+            <div class="section-card">
+                <h2>ℹ️ About Flixoura</h2>
+                <p style="line-height: 1.8; color: var(--text-secondary); margin-bottom: 25px; font-size: 1.05rem;">
+                    Flixoura is an advanced, feature-rich M3U playlist player designed for the modern streaming era. 
+                    Built with cutting-edge web technologies, it provides a seamless, beautiful, and powerful interface 
+                    for managing and watching your favorite content across all devices.
+                </p>
+
+                <p style="margin-top: 30px; color: var(--text-muted); font-size: 0.9rem; text-align: center;">
+                    Made with ❤️ for streaming enthusiasts worldwide
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://promoviex.vercel.app/playlist/playjs/playerjs.js"></script>
+    <script src="app.js"></script>
+
+    <script>
+        // ডামি Router ফাংশন যা পেজ নেভিগেট করবে
+        const Router = {
+            navigate: function(pageId) {
+                // সব পেজ থেকে active ক্লাস সরিয়ে দিন
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // সব nav-link থেকে active ক্লাস সরিয়ে দিন
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+
+                // নতুন পেজ এবং লিঙ্কে active ক্লাস যোগ করুন
+                const newPage = document.getElementById(pageId + '-page');
+                const newLink = document.querySelector(`.nav-link[data-page="${pageId}"]`);
+                
+                if (newPage) {
+                    newPage.classList.add('active');
+                }
+                if (newLink) {
+                    newLink.classList.add('active');
+                }
+            }
+        };
+
+        // যদি app.js-এ এই ফাংশনগুলি না থাকে, তবে এগুলি প্রাথমিক টগল ফাংশন হিসেবে কাজ করবে।
+        function toggleMobileMenu() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('active');
+        }
+
+        // Home পেজের জন্য প্রাথমিক ন্যাভিগেশন সেট করুন
+        document.addEventListener('DOMContentLoaded', () => {
+            const initialPage = window.location.hash.substring(1) || 'home';
+            Router.navigate(initialPage.replace('-page', ''));
+        });
+    </script>
+</body>
+                      </html>
