@@ -15,6 +15,29 @@ const CONFIG = {
         PLAYER_MODE: 'm3u_player_mode'
     }
 };
+useEffect(() => {
+  const script1 = document.createElement('script');
+  script1.type = 'text/javascript';
+  script1.innerHTML = `
+    atOptions = {
+      'key': '02999abf8b19cf254607fad8b5fb2767',
+      'format': 'iframe',
+      'height': 300,
+      'width': 160,
+      'params': {}
+    };
+  `;
+  document.body.appendChild(script1);
+
+  const script2 = document.createElement('script');
+  script2.type = 'text/javascript';
+  script2.src = '//www.highperformanceformat.com/02999abf8b19cf254607fad8b5fb2767/invoke.js';
+  document.body.appendChild(script2);
+}, []);
+
+
+</script>
+<script type="text/javascript" src="//www.highperformanceformat.com/02999abf8b19cf254607fad8b5fb2767/invoke.js"></script>
 
 // ===== Theme Manager =====
 const ThemeManager = {
