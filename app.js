@@ -2,7 +2,7 @@
 
 // ===== Configuration =====
 const CONFIG = {
-    DEFAULT_PLAYLIST_URL: "https://raw.githubusercontent.com/MRM3UK/New-try/refs/heads/main/playlist5.m3u",
+    DEFAULT_PLAYLIST_URL: "https://raw.githubusercontent.com/MRM3UK/New-try/refs/heads/main/fanzone.m3u",
     DEFAULT_PLAYLIST_NAME: "BDIX Movies Project 2",
     EPISODES_PER_LOAD: 50,
     STORAGE_KEYS: {
